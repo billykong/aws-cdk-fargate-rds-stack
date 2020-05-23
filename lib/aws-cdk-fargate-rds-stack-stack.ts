@@ -11,6 +11,7 @@ export class AwsCdkFargateRdsStackStack extends cdk.Stack {
     super(scope, id, props);
 
     const serviceName = 'movies-tmp';
+    const databaseName = 'my_database'
     const stage = 'dev';
     const databaseUsername = 'billy'
 
@@ -34,33 +35,6 @@ export class AwsCdkFargateRdsStackStack extends cdk.Stack {
       stringValue: databaseCredentialsSecret.secretArn,
     });
 
-    // const rdsClusterPrameterGroup = new rds.ClusterParameterGroup(this, 'rdsClusterPrameterGroup', {
-    //   description: 'PostgreSQL 11',
-    //   family: 'aurora-postgresql11',
-    //   parameters: {
-    //     max_connections: '100'
-    //   }
-    // });
-
-
-    // const database = new rds.DatabaseCluster(this, "Database", {
-    //   engine: rds.DatabaseClusterEngine.AURORA_POSTGRESQL,
-    //   engineVersion: "11",
-    //   masterUser: {
-    //     username: databaseUsername,
-    //     password: databaseCredentialsSecret.secretValueFromJson('password'),
-    //   },
-    //   instanceProps: {
-    //     instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE2, ec2.InstanceSize.SMALL),
-    //     vpcSubnets: {
-    //       subnetType: ec2.SubnetType.PRIVATE,
-    //     },
-    //     vpc
-    //   }, 
-    //   parameterGroup: rdsClusterPrameterGroup,
-    //   removalPolicy: cdk.RemovalPolicy.DESTROY
-    // });
-    
     const isDev = false;
     const dbConfig = {
       dbClusterIdentifier: `main-${serviceName}-${stage}-cluster`,
@@ -68,7 +42,7 @@ export class AwsCdkFargateRdsStackStack extends cdk.Stack {
       engine: 'aurora-postgresql',
       engineVersion: '10.7',
       enableHttpEndpoint: true,
-      databaseName: 'main',
+      databaseName: databaseName,
       masterUsername: databaseCredentialsSecret.secretValueFromJson('username').toString(),
       masterUserPassword: databaseCredentialsSecret.secretValueFromJson('password').toString(),
       backupRetentionPeriod: isDev ? 1 : 30,
@@ -89,7 +63,8 @@ export class AwsCdkFargateRdsStackStack extends cdk.Stack {
       taskImageOptions: {
         image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"),
         environment: {
-          DATABASE_ENDPOINT: rdsCluster.attrEndpointAddress,
+          DATABASE_HOST: rdsCluster.attrEndpointAddress,
+          DATABASE_NAME: databaseName,
           DATABASE_USERNAME: databaseCredentialsSecret.secretValueFromJson('username').toString(),
           DATABASE_PASSWORD: databaseCredentialsSecret.secretValueFromJson('password').toString(),
         } 
