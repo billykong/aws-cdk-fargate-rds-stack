@@ -27,3 +27,6 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 - configure aws region to deploy to in the bin `.ts` file, or the default aws-cli region will be used.
 - DBClusterParameterGroup not found: default.aurora5.6
 - What is best security practice in passing database connection credentials to containers?
+
+## References
+- https://dev.to/cjjenkinson/how-to-create-an-aurora-serverless-rds-instance-on-aws-with-cdk-5bb0
