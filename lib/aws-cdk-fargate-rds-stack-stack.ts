@@ -94,10 +94,8 @@ export class AwsCdkFargateRdsStackStack extends cdk.Stack {
           // TODO: use secret instead of environment
           DATABASE_USERNAME: databaseCredentialsSecret.secretValueFromJson('username').toString(),
           DATABASE_PASSWORD: databaseCredentialsSecret.secretValueFromJson('password').toString(),
-        } 
+        }
       },
     });
   }
 }
-
-// https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html

@@ -30,3 +30,4 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 ## References
 - https://dev.to/cjjenkinson/how-to-create-an-aurora-serverless-rds-instance-on-aws-with-cdk-5bb0
+- https://github.com/bind-almir/cdk-aurora-serverless/blob/master/lib/cdk-aurora-serverless-stack.ts
