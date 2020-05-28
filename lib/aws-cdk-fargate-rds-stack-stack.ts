@@ -14,8 +14,6 @@ export class AwsCdkFargateRdsStackStack extends cdk.Stack {
     const databaseName = 'my_database'
     const databaseUsername = 'deployer'
     const stage = 'dev';
-    // const isDev = stage !== "production";
-    const isDev = true;
 
     const vpc = new Vpc(this, 'MyVPC', { 
       cidr: '10.0.0.0/16',
