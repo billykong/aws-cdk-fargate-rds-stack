@@ -1,8 +1,23 @@
-# Welcome to your CDK TypeScript project!
+# Demostration on using `aws-cdk` for Load-Balanced Fargate Service with RDS Database
 
-This is a blank project for TypeScript development with CDK.
+This is a demo project for showcasing how to use `aws-cdk` to deploy a classic 3-tier web service with load-balancers, docker containers runnning application codes, and a relational database for persistant data. 
+
+We use AWS Elastic Load-balancer, AWS ECS Fargate for running Docker containers, and RDS Aurora for relational database.
+
+| Tier | Componenet | AWS Service |
+|------|------------|-------------|
+| 1 | Load-balancer | AWS ELB |
+| 2 | Application Logic | AWS ECS Fargate |
+| 3 | Database | AWS RDS Aurora |
+
+This projects uses a [simple express app with database connection](https://github.com/billykong/express-database-checker) for the application logic. You may need to replace the container image `billykong/express-database-checker` with your own Docker image if you want to reuse the template.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
+
+## Install AWS-CDK
+```
+npm install -g aws-cdk
+```
 
 ## Useful commands
 
@@ -13,21 +28,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
  * `cdk diff`        compare deployed stack with current state
  * `cdk synth`       emits the synthesized CloudFormation template
 
-## Questions
-- [ ] How to use aurora serverless?
-- [ ] How to set environement variable in fargate? (for database access)
-- [ ] How to set auto-scaling for ecs?
-- [ ] How to set public subnet for load balancer, and put the fargate and database into separate private subnets?
-- [ ] If we rotate the database secret with secret manager, will the new containers have updated secrets in their environment?
-
 
 ## Notes
 - We should install the same version of `aws-cdk` and other `@aws-cdk/*` dependencies. It seems even minor version difference may be incompatible.
-- We may need to create database cluster default parameter group yourself
-- configure aws region to deploy to in the bin `.ts` file, or the default aws-cli region will be used.
-- DBClusterParameterGroup not found: default.aurora5.6
-- What is best security practice in passing database connection credentials to containers?
-
-## References
-- https://dev.to/cjjenkinson/how-to-create-an-aurora-serverless-rds-instance-on-aws-with-cdk-5bb0
-- https://github.com/bind-almir/cdk-aurora-serverless/blob/master/lib/cdk-aurora-serverless-stack.ts
+- This project uses `v1.38.0` for `@aws-cdk/*` and tested with `aws-cdk@1.38.0`.
